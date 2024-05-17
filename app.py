@@ -11,15 +11,19 @@ def convert_df_to_excel(df):
     return processed_data
 
 # Streamlit UI
-st.title("Table to Excel Converter")
+st.title("Table to Excel Converter for Kahoot")
 
-st.write("Paste your CSV data in the text area below. Use comma to separate columns and new lines to separate rows.")
+st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows.")
 csv_input = st.text_area("Input your CSV data here:", height=300)
 
 if st.button("Convert and Download Excel"):
     try:
-        # Read the CSV data, ensuring proper handling of quoted strings
-        df = pd.read_csv(StringIO(csv_input), sep=',', quotechar='"', skipinitialspace=True)
+        # Read the CSV data, ensuring proper handling of slashes as separators
+        df = pd.read_csv(StringIO(csv_input), sep=' / ', engine='python')
+        
+        # Ensure the correct column names if necessary
+        df.columns = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Time", "Correct"]
+        
         st.write("Here is a preview of your data:")
         st.write(df)
         
