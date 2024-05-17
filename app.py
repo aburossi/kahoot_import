@@ -18,7 +18,8 @@ csv_input = st.text_area("Input your CSV data here:", height=300)
 
 if st.button("Convert and Download Excel"):
     try:
-        df = pd.read_csv(StringIO(csv_input))
+        # Read the CSV data, ensuring proper handling of quoted strings
+        df = pd.read_csv(StringIO(csv_input), sep=',', quotechar='"', skipinitialspace=True)
         st.write("Here is a preview of your data:")
         st.write(df)
         
