@@ -7,17 +7,14 @@ def convert_df_to_excel(df):
     output = BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Sheet1')
-        writer.save()
     processed_data = output.getvalue()
     return processed_data
 
 # Streamlit UI
 st.title("Table to Excel Converter")
 
-st.write("Paste your table data in the text area below. Use tab or comma to separate columns and new lines to separate rows.")
-sample_data = ""
-
-table_input = st.text_area("Input your table data here:", value=sample_data, height=300)
+st.write("Enter your table data in the text area below. Use tab or comma to separate columns and new lines to separate rows.")
+table_input = st.text_area("Input your table data here:", value="", height=300)
 
 if st.button("Convert and Download Excel"):
     try:
