@@ -1,8 +1,24 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 from io import StringIO, BytesIO
 
 def convert_df_to_excel(df):
+    # Shuffle answers for each question
+    for i in range(len(df)):
+        answers = df.iloc[i, 1:5].tolist()
+        correct_index = df.iloc[i, 6] - 1
+        correct_answer = answers[correct_index]
+        
+        # Shuffle answers
+        np.random.shuffle(answers)
+        
+        # Update DataFrame with shuffled answers
+        df.iloc[i, 1:5] = answers
+        
+        # Update correct answer index
+        df.iloc[i, 6] = answers.index(correct_answer) + 1
+
     output = BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
         df.to_excel(writer, index=False, sheet_name='Sheet1')
@@ -22,7 +38,7 @@ def convert_to_lms_format(df):
     
     return "\n\n".join(lms_output)
 
-st.title("Table to Excel and LMS Format Converter for Kahoot")
+st.title("Table to Excel (Shuffled) and LMS Format Converter for Kahoot")
 st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows.")
 
 csv_input = st.text_area("Input your CSV data here:", height=300)
@@ -32,14 +48,14 @@ if st.button("Convert and Download"):
         df = pd.read_csv(StringIO(csv_input), sep=' / ', engine='python')
         df.columns = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Time", "Correct"]
         
-        st.write("Here is a preview of your data:")
+        st.write("Here is a preview of your data (before shuffling for Excel):")
         st.write(df)
         
         excel_data = convert_df_to_excel(df)
         st.download_button(
-            label="Download Excel",
+            label="Download Excel (Shuffled Answers)",
             data=excel_data,
-            file_name="table.xlsx",
+            file_name="table_shuffled.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         
