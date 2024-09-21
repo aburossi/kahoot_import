@@ -38,7 +38,7 @@ def convert_to_lms_format(df):
     
     return "\n\n".join(lms_output)
 
-st.title("Table to Excel (Shuffled) and LMS Format Converter for Kahoot")
+st.title("Table to Excel (Shuffled) and OLAT Format Converter for Kahoot")
 st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows.")
 
 csv_input = st.text_area("Input your CSV data here:", height=300)
@@ -61,9 +61,9 @@ if st.button("Convert and Download"):
         
         lms_data = convert_to_lms_format(df)
         st.download_button(
-            label="Download LMS Format",
+            label="Download OLAT Single-Choice Format",
             data=lms_data,
-            file_name="lms_import.txt",
+            file_name="OLAT_import.txt",
             mime="text/plain"
         )
     except Exception as e:
