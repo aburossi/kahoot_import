@@ -38,7 +38,21 @@ def convert_to_lms_format(df):
     
     return "\n\n".join(lms_output)
 
-st.title("Table to Excel (Shuffled) and OLAT Format Converter for Kahoot")
+# New function for H5P format
+def convert_to_h5p_format(df):
+    h5p_output = []
+    for _, row in df.iterrows():
+        question = row['Question']
+        correct_answer = row[f"Answer {row['Correct']}"]
+        incorrect_answers = [row[f'Answer {i}'] for i in range(1, 5) if i != row['Correct']]
+        
+        # Format: Correct answer first, followed by incorrect answers
+        h5p_format = f"{question}\n{correct_answer}\n" + "\n".join(incorrect_answers)
+        h5p_output.append(h5p_format)
+    
+    return "\n\n".join(h5p_output)
+
+st.title("Table to Excel (Shuffled), OLAT Format, and H5P Converter for Kahoot")
 st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows.")
 
 csv_input = st.text_area("Input your CSV data here:", height=300)
@@ -51,6 +65,7 @@ if st.button("Convert and Download"):
         st.write("Here is a preview of your data (before shuffling for Excel):")
         st.write(df)
         
+        # Excel (Shuffled Answers)
         excel_data = convert_df_to_excel(df)
         st.download_button(
             label="Download Excel (Shuffled Answers)",
@@ -59,12 +74,23 @@ if st.button("Convert and Download"):
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         
+        # LMS Format
         lms_data = convert_to_lms_format(df)
         st.download_button(
-            label="Download OLAT Single-Choice Format",
+            label="Download OLAT Format",
             data=lms_data,
             file_name="OLAT_import.txt",
             mime="text/plain"
         )
+
+        # H5P Format
+        h5p_data = convert_to_h5p_format(df)
+        st.download_button(
+            label="Download H5P Export",
+            data=h5p_data,
+            file_name="h5p_export.txt",
+            mime="text/plain"
+        )
+    
     except Exception as e:
         st.error(f"An error occurred: {e}")
