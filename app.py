@@ -90,6 +90,12 @@ if st.button("Convert and Download"):
             mime="text/plain"
         )
 
+                # Add Hyperlink below the Kahoot button
+        st.markdown(
+            "[Step by Step OLAT-Import](https://tools.fobizz.com/website/public_pages/866fd7a0-d855-4d4c-a5cb-04d598c94172?token=14a6005b8efc206258c09d85bf45c3c7)",
+            unsafe_allow_html=True
+        )
+
         # H5P Format with updated label
         h5p_data = convert_to_h5p_format(df)
         st.download_button(
