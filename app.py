@@ -59,34 +59,41 @@ csv_input = st.text_area("Input your CSV data here:", height=300)
 
 if st.button("Convert and Download"):
     try:
-        df = pd.read_csv(StringIO(csv_input), sep=' / ', engine='python')
+        # Adjusted separator to handle spaces around slash
+        df = pd.read_csv(StringIO(csv_input), sep=r'\s*/\s*', engine='python')
         df.columns = ["Question", "Answer 1", "Answer 2", "Answer 3", "Answer 4", "Time", "Correct"]
         
         st.write("Here is a preview of your data (before shuffling for Excel):")
         st.write(df)
         
-        # Excel (Shuffled Answers)
+        # Excel (Shuffled Answers) with updated label
         excel_data = convert_df_to_excel(df)
         st.download_button(
-            label="Download Excel (Shuffled Answers)",
+            label="Download Kahoot Format (Excel)",
             data=excel_data,
             file_name="table_shuffled.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         
-        # LMS Format
+        # Add Hyperlink below the Kahoot button
+        st.markdown(
+            "[Step by Step Kahoot-Import](https://tools.fobizz.com/website/public_pages/66958a17-ad70-45eb-b9c6-30661f0c24ed?token=32367ca42998d30f5ae47692cfee4bda)",
+            unsafe_allow_html=True
+        )
+        
+        # LMS Format with updated label
         lms_data = convert_to_lms_format(df)
         st.download_button(
-            label="Download OLAT Format",
+            label="Download OLAT Format (txt)",
             data=lms_data,
             file_name="OLAT_import.txt",
             mime="text/plain"
         )
 
-        # H5P Format
+        # H5P Format with updated label
         h5p_data = convert_to_h5p_format(df)
         st.download_button(
-            label="Download H5P Export",
+            label="Download H5P Export (txt)",
             data=h5p_data,
             file_name="h5p_export.txt",
             mime="text/plain"
