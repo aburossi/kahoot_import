@@ -52,8 +52,8 @@ def convert_to_h5p_format(df):
     
     return "\n\n".join(h5p_output)
 
-st.title("Table to Excel (Shuffled), OLAT Format, and H5P Converter for Kahoot")
-st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows.")
+st.title("Table to Excel for Kahoot-Import")
+st.write("Paste your CSV data in the text area below. Use slash (/) to separate columns and new lines to separate rows. Use this [customGPT](https://chatgpt.com/g/g-hKBP1U4Ks-kahoot-streamlit) first to generate the data")
 
 csv_input = st.text_area("Input your CSV data here:", height=300)
 
