@@ -162,7 +162,7 @@ user_added_prompt = st.text_area("Your Prompt", placeholder="Paste your prompt h
 # Button to open the second bot interface.
 if st.button("Open Second Bot"):
     components.iframe(
-        "https://tools.fobizz.com/ai/chats/public_assistants/2aa09403-a9c8-4a1a-a4e4-a3e06d39065b?token=d0283c408e3f9d15ed01a9faceae29c0", 
+        "https://chatgpt.com/g/g-hKBP1U4Ks-kahoot-streamlit", 
         height=600,
         scrolling=True
     )
