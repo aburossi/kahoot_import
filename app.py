@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from io import StringIO, BytesIO
 from zipfile import ZipFile
+import streamlit.components.v1 as components
 
 def convert_df_to_excel(df):
     # Shuffle answers for each question
@@ -146,4 +147,22 @@ if st.session_state.converted:
         data=st.session_state.zip_data,
         file_name="all_files.zip",
         mime="application/zip"
+    )
+
+# --- New Section for Content Generation with Second Bot ---
+st.header("Content Generation with Second Bot")
+
+# Dropdown titled "Prompt" displaying the original prompt.
+default_prompts = ["Original prompt"]
+selected_prompt = st.selectbox("Prompt", default_prompts)
+
+# A text area with a placeholder for later prompt pasting.
+user_added_prompt = st.text_area("Your Prompt", placeholder="Paste your prompt here...")
+
+# Button to open the second bot interface.
+if st.button("Open Second Bot"):
+    components.iframe(
+        "https://tools.fobizz.com/ai/chats/public_assistants/2aa09403-a9c8-4a1a-a4e4-a3e06d39065b?token=d0283c408e3f9d15ed01a9faceae29c0", 
+        height=600,
+        scrolling=True
     )
