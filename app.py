@@ -5,6 +5,12 @@ from io import StringIO, BytesIO
 from zipfile import ZipFile
 import streamlit.components.v1 as components
 
+# Set the browser tab title to "Table-To-Kahoot"
+st.set_page_config(page_title="Table-To-Kahoot")
+
+# Update the main heading to "Kahoot Generator"
+st.title("Kahoot Generator")
+
 def convert_df_to_excel(df):
     # Shuffle answers for each question
     for i in range(len(df)):
@@ -63,13 +69,12 @@ def convert_to_h5p_format(df):
 def create_bulk_zip(excel_data, lms_data, h5p_data):
     zip_buffer = BytesIO()
     with ZipFile(zip_buffer, "w") as zip_file:
-        zip_file.writestr("table_shuffled.xlsx", excel_data)
+        zip_file.writestr("kahoot_import.xlsx", excel_data)
         zip_file.writestr("OLAT_import.txt", lms_data)
         zip_file.writestr("h5p_export.txt", h5p_data)
     zip_buffer.seek(0)
     return zip_buffer.read()
 
-st.title("Table to Excel for Kahoot-Import")
 st.write("Paste your data in the text area below. Use slash (/) to separate columns and new lines to separate rows. Use this [customGPT](https://chatgpt.com/g/g-hKBP1U4Ks-kahoot-streamlit) first to generate the data")
 
 csv_input = st.text_area("Input your data here:", height=300)
@@ -119,7 +124,7 @@ if st.session_state.converted:
     st.download_button(
         label="Download Kahoot Format (Excel)",
         data=st.session_state.excel_data,
-        file_name="table_shuffled.xlsx",
+        file_name="kahoot_import.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     st.markdown(
