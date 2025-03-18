@@ -11,6 +11,12 @@ st.set_page_config(page_title="Table-To-Kahoot")
 # Update the main heading to "Kahoot Generator"
 st.title("Kahoot Generator")
 
+def clean_input(text):
+    """
+    Cleans the input text by substituting all occurrences of 'ß' with 'ss'.
+    """
+    return text.replace("ß", "ss")
+
 def convert_df_to_excel(df):
     # Shuffle answers for each question
     for i in range(len(df)):
